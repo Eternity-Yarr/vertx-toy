@@ -21,10 +21,11 @@ public class HttpSenderVerticle extends AbstractVerticle {
 		httpClient = vertx.createHttpClient(
 				new HttpClientOptions()
 						.setMaxPoolSize(100)
-						.setDefaultHost("192.168.1.131")
+						.setDefaultHost("127.0.0.1")
 						.setDefaultPort(8080)
 						.setKeepAlive(true)
 		);
-		vertx.eventBus().localConsumer("send").handler(this::sendRequest);
+
+		vertx.eventBus().localConsumer("blah").handler(this::sendRequest);
 	}
 }
