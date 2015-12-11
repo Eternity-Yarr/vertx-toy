@@ -27,16 +27,24 @@ public class VertxToyApplication extends AbstractVerticle {
 
         vertx.createHttpServer()
                 .requestHandler(
-                        event -> event
+                        event -> {
+                            try {
+                                Thread.sleep(30);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            event
                                 .response()
                                 .putHeader("Content-Type", "application/xml; charset=utf-8")
                                 .putHeader("Content-Length", "42")
-                                .end("<?xml version=\"1.0\"?><result>ok</result>"))
+                                .end("<?xml version=\"1.0\"?><result>ok</result>");
+                        }
+                )
                 .listen(8080);
 
         vertx.deployVerticle(
                 "ru.yarr.HttpSenderVerticle",
-                new DeploymentOptions().setInstances(50).setWorker(true)
+                new DeploymentOptions().setInstances(5).setWorker(true)
         );
 
         vertx.deployVerticle(new VertxToyApplication(), event -> {
@@ -44,12 +52,12 @@ public class VertxToyApplication extends AbstractVerticle {
                 System.out.println("WEee!");
                 vertx.executeBlocking(
                         event1 -> {
-                            for (int i = 0; i <= 500000; i++) {
+                            for (int i = 0; i <= 5_000_000; i++) {
                                 if (i % 100000 == 0) System.out.println(i);
                                 vertx.eventBus().send("blah", "blah");
 
                             }
-                        }, event1 -> System.out.println("2"));
+                        }, null);
             }
         });
     }
