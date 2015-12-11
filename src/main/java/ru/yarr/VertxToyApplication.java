@@ -33,6 +33,7 @@ public class VertxToyApplication extends AbstractVerticle {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
+                            System.out.print('.');
                             event
                                 .response()
                                 .putHeader("Content-Type", "application/xml; charset=utf-8")
@@ -54,7 +55,7 @@ public class VertxToyApplication extends AbstractVerticle {
                         event1 -> {
                             for (int i = 0; i <= 5_000_000; i++) {
                                 if (i % 100000 == 0) System.out.println(i);
-                                vertx.eventBus().send("blah", "blah");
+                                vertx.eventBus().send("blah", "blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah");
 
                             }
                         }, null);
